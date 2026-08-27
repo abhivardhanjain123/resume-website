@@ -1,0 +1,414 @@
+/* =========================================================
+   Abhivardhan Jain — Personal Resume Website
+   Stylesheet: style.css
+   ---------------------------------------------------------
+   Sections
+   1. Design tokens (colour palette + typography variables)
+   2. Base / element selectors
+   3. Navigation bar          (position: sticky, display: flex)
+   4. Hero                    (display: grid)
+   5. Reusable section styles (class selectors)
+   6. Cards & grid layout     (display: grid)
+   7. Timeline                (position: relative / absolute)
+   8. Skill chips             (display: inline-block)
+   9. Contact & footer
+  10. Responsive rules        (media queries)
+   ========================================================= */
+
+
+/* ---------- 1. DESIGN TOKENS ---------- */
+:root {
+  --navy:        #0f2743;
+  --navy-soft:   #1b3a5f;
+  --accent:      #2f7de1;
+  --accent-dark: #1b5fb8;
+  --slate:       #52627a;
+  --line:        #e2e8f0;
+  --bg:          #ffffff;
+  --bg-alt:      #f5f8fc;
+
+  --font-head: 'Poppins', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+  --radius: 12px;
+  --shadow: 0 4px 18px rgba(15, 39, 67, 0.07);
+  --max-width: 1080px;
+}
+
+
+/* ---------- 2. BASE / ELEMENT SELECTORS ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--slate);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  color: var(--navy);
+  line-height: 1.25;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color .2s ease; }
+a:hover { color: var(--accent-dark); }
+
+ul { list-style: none; }
+
+strong { color: var(--navy); font-weight: 600; }
+
+
+/* ---------- 3. NAVIGATION BAR (ID selector + sticky + flexbox) ---------- */
+#navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 68px;
+
+  display: flex;                    /* horizontal layout */
+  align-items: center;              /* vertical alignment */
+  justify-content: space-between;   /* logo left, links right */
+}
+
+.nav-logo {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+}
+.nav-logo .dot { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 0.93rem;
+  font-weight: 500;
+  color: var(--slate);
+  position: relative;
+  padding-bottom: 3px;
+}
+
+/* animated underline built with an absolutely positioned pseudo-element */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent);
+  transition: width .25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+
+.nav-links a.nav-cta {
+  background-color: var(--navy);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 999px;
+}
+.nav-links a.nav-cta:hover { background-color: var(--accent); }
+.nav-links a.nav-cta::after { display: none; }
+
+
+/* ---------- 4. HERO (CSS Grid) ---------- */
+#hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 88px 24px 72px;
+
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+#hero h1 {
+  font-size: 3.1rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy-soft);
+  margin-bottom: 18px;
+}
+
+.hero-text { max-width: 52ch; margin-bottom: 30px; }
+
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;           /* block behaviour on an inline element */
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform .18s ease, background-color .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background-color: var(--accent); color: #fff; }
+.btn-primary:hover { background-color: var(--accent-dark); color: #fff; }
+
+.btn-ghost { border: 1.5px solid var(--line); color: var(--navy); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-card {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--accent));
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.quick-facts li {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.93rem;
+}
+.quick-facts li:last-child { border-bottom: none; }
+
+.quick-facts span {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+
+/* ---------- 5. REUSABLE SECTION STYLES (class selectors) ---------- */
+.section { padding: 76px 24px; }
+
+.section > * {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section.alt { background-color: var(--bg-alt); }
+
+.section-title {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.section-sub {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--accent);
+  margin-bottom: 42px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+
+/* ---------- 6. CARDS ---------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background-color: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+.card h3 { font-size: 1.08rem; margin-bottom: 6px; }
+
+.card-meta {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.card p { font-size: 0.94rem; }
+
+.tag {
+  display: inline-block;
+  background-color: var(--bg-alt);
+  color: var(--navy-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+
+/* ---------- 7. TIMELINE (relative + absolute positioning) ---------- */
+.timeline {
+  position: relative;           /* positioning context for the vertical line */
+  padding-left: 34px;
+  max-width: 760px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background-color: var(--line);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 34px;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--bg);
+  border: 3px solid var(--accent);
+}
+
+.timeline-item h3 { font-size: 1.05rem; margin-bottom: 4px; }
+.timeline-item p  { font-size: 0.94rem; }
+
+
+/* ---------- 8. SKILL CHIPS (display: inline-block) ---------- */
+.skills-block { max-width: 760px; }
+
+.skills-block h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--slate);
+  margin: 26px 0 12px;
+}
+.skills-block h4:first-child { margin-top: 0; }
+
+.chips li {
+  display: inline-block;        /* list items sit side by side */
+  background-color: var(--bg-alt);
+  border: 1px solid var(--line);
+  color: var(--navy);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 999px;
+  margin: 0 8px 10px 0;
+  transition: background-color .2s ease, color .2s ease;
+}
+.chips li:hover { background-color: var(--accent); color: #fff; border-color: var(--accent); }
+
+
+/* ---------- 9. CONTACT & FOOTER ---------- */
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.contact-item {
+  background-color: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 26px;
+  min-width: 240px;
+  text-align: center;
+  color: var(--navy);
+  font-weight: 500;
+  font-size: 0.94rem;
+}
+.contact-item:hover { border-color: var(--accent); color: var(--accent); }
+
+.contact-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+footer {
+  background-color: var(--navy);
+  color: #c3d2e6;
+  text-align: center;
+  padding: 26px 24px;
+  font-size: 0.88rem;
+}
+
+
+/* ---------- 10. RESPONSIVE ---------- */
+@media (max-width: 860px) {
+  #hero { grid-template-columns: 1fr; gap: 36px; padding-top: 56px; }
+  #hero h1 { font-size: 2.3rem; }
+  .about-grid { grid-template-columns: 1fr; }
+  .nav-links { gap: 16px; }
+  .nav-links li:not(:last-child) { display: none; }  /* keep only the CTA on small screens */
+  .section { padding: 56px 20px; }
+}
